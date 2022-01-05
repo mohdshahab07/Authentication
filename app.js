@@ -3,6 +3,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import ejs from "ejs";
+import encrypt from "mongoose-encryption";
+// adding "mongoose-encryption" package for encrypting the Secrets. 
 
 const app = express();
 
@@ -14,10 +16,19 @@ app.use(express.urlencoded({ extended: true }));
 mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
 
 
-const userSchema = {
+const userSchema =new mongoose.Schema ({
     email: String,
     password: String
-}
+});
+
+const encsecret="Thisisoursecretforencryption.";
+// this is the key for encryption.this key must not revealed to others since it's very useful for decryption.
+
+userSchema.plugin(encrypt,{secret:encsecret , encryptedFields:["password"]});
+//Schemas are pluggable, that is, they allow for applying pre-packaged capabilities to extend their funcionality.
+// just like above we plug the schema "userSchema" for using encryption for that schema. if we don't add encryptedFields option then, the whole schema will be encrypted.and if we wanted to encrypt anything else other than password, then we simply just add that item to array after password.
+//make sure that we add plugins before creating the mongoose model since the schema is used in creating model.
+//this is the level-2 security.
 
 const User = new mongoose.model("User", userSchema);
 
@@ -64,9 +75,8 @@ app.post("/login", function (req, res) {
                 if (founddoc.password === password) {
                     res.render("secrets");
                 }
-                // if the password saved in the databse with corresponding email matches with the password that user enters, then the secret page is shown.
-                //  now this is our level 1 security in which password saved in databse in it's original form.for further levels we use encryption for saving passwords.
-
+                // in this case when we apply findOne method on model then mongoose-encrypt will be able to successfully decrypt the password. 
+                // after decryption if the password saved in the databse with corresponding email matches with the password that user enters, then the secret page is shown.
             }
         }
     });
