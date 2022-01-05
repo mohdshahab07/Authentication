@@ -9,6 +9,22 @@ import mongoose from "mongoose";
 import ejs from "ejs";
 import encrypt from "mongoose-encryption";
 // adding "mongoose-encryption" package for encrypting the Secrets. 
+
+import md5 from "md5";
+// now we import md5 package
+//md5 is a hashing algorithm.
+//how hard we tried to encrypt our password or secrets,that password remains safe unless it's key is safe, but if someone able to find it's key then that password will be cracked easily.so to solve this problem hashing comes into play.
+//hashing is the technique to converts strings into a hexadecimal hash.converting that hash again into the original text is almost impossible.
+//hashing uses several algorithm. "md5" is one of the algorithms of hashing.
+//md5 algorithm basically generates a hash function and when any string pass through those functions then certain hash is generated.
+//the important thing about hashing is that it generates the same hash if the same string pass through the hash function.
+
+// console.log(md5("123456"));
+// this generates the hash of string "123456" using md5 algorithm.
+
+
+
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -19,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
 
 
-const userSchema =new mongoose.Schema ({
+const userSchema = new mongoose.Schema({
     email: String,
     password: String
 });
@@ -27,16 +43,8 @@ const userSchema =new mongoose.Schema ({
 
 
 // const encsecret="Thisisoursecretforencryption.";
+// userSchema.plugin(encrypt,{secret:process.env.ENCSECRET , encryptedFields:["password"]});
 
-// this is the key for encryption.this key must not revealed to others since it's very useful for decryption.
-// since this secret key is very important and anyone who looked into this file will know the secret key and easily decrypt the encrypted fields.so to prevent this key we'll use environment variables.for using environment variables we will use the npm package named "dotenv".
-// for storing the environment variables, a file named .env will be created and all the secret variables are stored in that file in the format NAME=VALUE and no gap is given b/w any lines. and the format for using that environment variables is:
-// process.env.ENCSECRET 
-// make sure that while hosting project to github or other online sites put .env file in .gitignore file to keep all the environment variables Safe. 
-//while deploying project on heroku, they have a special page for environment variables where we give details of our environment variables so that they access it for successfully deployment of project.
-
-userSchema.plugin(encrypt,{secret:process.env.ENCSECRET , encryptedFields:["password"]});
-// as here ENCSECRET is environment variable and to use it here we write process.env.ENCSECRET 
 
 
 const User = new mongoose.model("User", userSchema);
@@ -56,7 +64,9 @@ app.get("/register", function (req, res) {
 app.post("/register", function (req, res) {
     const newUser = new User({
         email: req.body.username,
-        password: req.body.password
+        password: md5(req.body.password)
+        // here we converting the password of user into hash using md5 hashing algorithm.
+
     });
     // each time when user registered it's data will be saved in database.
 
@@ -72,8 +82,8 @@ app.post("/register", function (req, res) {
 
 app.post("/login", function (req, res) {
     const username = req.body.username;
-    const password = req.body.password;
-    console.log(typeof (password));
+    const password = md5(req.body.password);
+    // while login we again changed the password that the user entered into the hash.and if the hash that stores in databse while registering matches with this hash then that means password is correct. 
 
     User.findOne({ email: username }, function (err, founddoc) {
         if (err) {
@@ -84,8 +94,9 @@ app.post("/login", function (req, res) {
                 if (founddoc.password === password) {
                     res.render("secrets");
                 }
-                // in this case when we apply findOne method on model then mongoose-encrypt will be able to successfully decrypt the password. 
-                // after decryption if the password saved in the databse with corresponding email matches with the password that user enters, then the secret page is shown.
+                //if the hash that saved in the databse with corresponding email matches with the hash that user enters while login, then the secret page is shown.
+
+                //this is level 3 security.
             }
         }
     });
