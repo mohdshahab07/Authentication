@@ -1,10 +1,13 @@
 
 body {
   background-color: #E8ECEF;
+  height: 100vh;
+  /* display: flex; */
+  /* align-items: center; */
 }
 
 .centered {
-    padding-top: 260px;
+    /* padding-top: 220px; */
     text-align: center;
 }
 
@@ -12,5 +15,160 @@ body {
   text-align: center;
   font-size: 2rem;
   color: #fff;
-  background-color: #000;
+  background-color:#474d52;
+}
+
+.hmd{
+  padding-bottom: 15vh;
+}
+
+.loutdiv{
+  margin-top: 0px!important;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+
+}
+
+.alert{
+  text-align: center;
+  width: 100%;
+  margin: auto;
+}
+
+.navdiv{
+  padding: 5px 5px;
+}
+
+.nitem{
+  padding: 5px 20px;
+  font-size: larger;
+  font-weight: bold;
+}
+
+.blt{
+    padding: 5px 15px;
+}
+
+.outdiv{
+  padding: 30px 10px;
+}
+
+.icon{
+  display: flex;
+  align-items: center;
+}
+
+.icd{
+  display: flex;
+  justify-content: end;
+  width: 73%;
+}
+
+.fas{
+
+}
+
+.dd{
+  padding-right: 7px;
+}
+
+.dl{
+  padding-right: 20px;
+  /* padding-top: 1px; */
+}
+
+.cb{
+  font-size: 2rem;
+  text-align: center;
+}
+
+.mch{
+    background-color: #8b8d8f;
+}
+
+.mcb{
+  background-color: #cbcaca;;
+}
+
+.display-3{
+  text-align: center;
+  text-decoration: underline;
+  font-size: 3rem;
+  font-weight:400;
+}
+
+.bsec{
+  padding: 12px 29px;
+  font-size: 22px;
+}
+
+.postbtn{
+  padding: 7px 30px;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.loginoutdiv{
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.logincard{
+  padding:20px 15px 10px 20px;
+  border: 2px solid gray;
+  border-radius: 10px;
+  background-color: rgb(237 237 237);
+  width: 100%;
+}
+
+.lem{
+  width: 99%;
+}
+
+.lhead{
+  text-align: center;
+}
+
+.msch{
+  font-size: 1rem;
+  background-color:#f1eeeb;
+}
+
+.msct{
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.mscb{
+  background-color:#aebfcfd5;
+}
+
+.msc{
+  /* margin-bottom: 20px; */
+}
+
+
+@media only screen and (min-width: 200px) and (max-width:1000px) {
+  .loginoutdiv{
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+    .dd{
+      padding:6px 0px;
+    }
+    .nav-item{
+      padding-top: 6px;
+    }
+}
+
+.ftr{
+  font-size: larger;
+  padding-top: 10px;
 }

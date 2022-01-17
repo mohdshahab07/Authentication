@@ -1,20 +1,60 @@
 <%- include('partials/header') %>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+    <div class="container-fluid navdiv">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
 
-<div class="container">
-  <div class="jumbotron centered">
-    <i class="fas fa-key fa-6x"></i>
-    <h1 class="display-3">Secrets</h1>
-    <p class="secret-text">Don't keep your secrets, share them anonymously!</p>
 
-    <form action="/submit" method="POST">
+          <li class="nav-item dropdown dd">
+            <a class="nav-link active dropdown-toggle nitem" href="#" id="navbarDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              User
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="">
+                  <%= personname %>
+                </a></li>
 
-      <div class="form-group">
-        <input type="text" class="form-control text-center" name="secret" placeholder="What's your secret?">
+            </ul>
+          </li>
+          <li class="nav-item dd dl">
+            <a class="nav-link active nitem" href="/mysecrets" aria-current="page" type="submit">My Secrets</a>
+          </li>
+          <li class="nav-item dd dl">
+            <a class="nav-link active nitem" href="/secrets" aria-current="page" type="submit">All Secrets</a>
+          </li>
+          <li class="nav-item">
+            <form action="/logout" method="post">
+              <button class="btn btn-light blt" type="submit">Log Out</button>
+              <!-- <a class="nav-link active nitem" aria-current="page" type="submit">Log Out</a> -->
+            </form>
+
+          </li>
+        </ul>
       </div>
-      <button type="submit" class="btn btn-dark">Submit</button>
-    </form>
+    </div>
+  </nav>
+
+  <div class="jumbotron centered loutdiv">
+    <div class="container hmd">
+      <i class="fas fa-key fa-6x"></i>
+      <h1 class="display-3">Secrets</h1>
+      <p class="secret-text">Don't keep your secrets, share them anonymously!</p>
+
+      <form action="/submit" method="POST">
+
+        <div class="form-group">
+          <input type="text" class="form-control text-center" name="secret" required placeholder="What's your secret?">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-secondary postbtn">Post</button>
+      </form>
 
 
+    </div>
   </div>
-</div>
-<%- include('partials/footer') %>
+  <%- include('partials/footer') %>
