@@ -101,7 +101,8 @@ app.use(flash());
 
 
 
-mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
+mongoose.connect("mongodb+srv://admin-mohdshahab:" + process.env.PASSWORD + "@cluster0.bmgof.mongodb.net/UserDB?retryWrites=true&w=majority", { useNewUrlParser: true });
+
 
 
 const userSchema = new mongoose.Schema({
@@ -186,7 +187,7 @@ passport.deserializeUser(User.deserializeUser());
 app.get("/", function (req, res) {
     if (req.isAuthenticated()) {
         res.redirect("/secrets")
-        console.log(req.user.username);
+        // console.log(req.user.username);
     }
     // Passport JS conveniently provides a “req.isAuthenticated()” function,
     // that returns “true” in case an authenticated user is present in “req.session.passport.user”,otherwise "false"
@@ -206,7 +207,7 @@ app.get("/register", function (req, res) {
 
 app.get("/secrets", function (req, res) {
     if (req.isAuthenticated()) {
-        console.log(req.user);
+        // console.log(req.user);
 
         Usersecret.find(function (err, docs) {
             if (err) {
@@ -214,7 +215,7 @@ app.get("/secrets", function (req, res) {
             }
             else {
                 if (docs) {
-                    console.log("found");
+                    // console.log("found");
                     res.render("secrets", {
                         allsecretsdocs: docs,
                         personname: req.user.fullname,
@@ -310,7 +311,7 @@ app.post("/submit", function (req, res) {
                     secrettext: thesecret,
                     timestamp: new Date()
                 })
-                console.log(newsecret);
+                // console.log(newsecret);
 
                 founduser.mysecret.push(newsecret);
                 founduser.save();
@@ -341,7 +342,7 @@ app.post("/register", function (req, res) {
                 //  callback function , works only after successful Authenticaton. 
                 //mondatory.
                 res.redirect("/login");
-                console.log("hello")
+                // console.log("hello")
                 User.findById(req.user.id, function (err, doc) {
                     if (err) {
                         console.log(err);
@@ -379,7 +380,7 @@ app.post("/mysecrets", function (req, res) {
                         console.log(err)
                     }
                     else {
-                        console.log("success");
+                        // console.log("success");
                     }
                 })
                 console.log(req.body.deletesecret)
@@ -419,9 +420,13 @@ app.post('/logout', function (req, res) {
 
 
 
-app.listen(4000, function () {
-    console.log("the server is started on port 4000");
-})
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 4000;
+}
+app.listen(port, function () {
+    console.log("server has started successfully");
+});
 // note that restarting the server will erase the session and delete the Cookie.
 
 

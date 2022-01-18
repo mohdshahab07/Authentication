@@ -104,6 +104,8 @@ dist
 .temp
 .cache
 
+.DS_Store
+
 # Serverless directories
 .serverless/
 
